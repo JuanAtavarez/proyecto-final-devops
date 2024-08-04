@@ -1,0 +1,25 @@
+---
+- name: Configurar servidor web
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Instalar Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Iniciar el servicio de Apache
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Copiar archivos HTML a Apache
+      copy:
+        src: ../html/
+        dest: /var/www/html/
+        owner: www-data
+        group: www-data
+        mode: '0644'
+        recursive: yes
